@@ -43,7 +43,19 @@ Public Class Form1
 
             ' Sélection automatique du premier profil
             If lstLog.Items.Count > 0 Then lstLog.SelectedIndex = 0
+
+
         End If
+        'refresh
+        System.Threading.Thread.Sleep(100)
+        RafraichirListe()
+    End Sub
+    Private Sub RafraichirListe()
+        lstLog.Items.Clear()
+        Dim tousLesFichiers = Directory.GetFiles(m_DossierCible)
+        For Each f In tousLesFichiers
+            lstLog.Items.Add(Path.GetFileName(f))
+        Next
     End Sub
 
     ' --- LOGIQUE DE CONVERSION ---
@@ -155,4 +167,71 @@ Public Class Form1
         Catch : End Try
         Return pts
     End Function
+    Private Sub MirrorDat(sourcePath As String)
+        Try
+            Dim lines As String() = File.ReadAllLines(sourcePath)
+            Dim newPoints As New List(Of String)
+
+            ' On traite les points (on ignore la 1ère ligne du nom)
+            For i As Integer = 1 To lines.Length - 1
+                Dim line As String = lines(i).Trim()
+                If String.IsNullOrWhiteSpace(line) Then Continue For
+
+                ' Utilisation d'un tableau de String pour les séparateurs (Espace et Tab)
+                Dim parts = line.Split(New String() {" ", ControlChars.Tab}, StringSplitOptions.RemoveEmptyEntries)
+
+                If parts.Length >= 2 Then
+                    Dim x As Double = Double.Parse(parts(0), System.Globalization.CultureInfo.InvariantCulture)
+                    Dim y As Double = Double.Parse(parts(1), System.Globalization.CultureInfo.InvariantCulture)
+
+                    ' Calcul miroir : x_nouveau = 1 - x_ancien
+                    Dim newX As Double = 1.0 - x
+                    newPoints.Add(String.Format(System.Globalization.CultureInfo.InvariantCulture, "{0,10:F6} {1,10:F6}", newX, y))
+                End If
+            Next
+
+            ' Inverser l'ordre pour garder la continuité du tracé (Intrados -> Extrados)
+            newPoints.Reverse()
+
+            ' Reconstruction du fichier final
+            Dim finalContent As New List(Of String)
+            finalContent.Add(lines(0) & " _FLIPPED")
+            finalContent.AddRange(newPoints)
+
+            Dim destPath As String = Path.Combine(Path.GetDirectoryName(sourcePath), Path.GetFileNameWithoutExtension(sourcePath) & "_flip.dat")
+            File.WriteAllLines(destPath, finalContent)
+
+        Catch ex As Exception
+            MessageBox.Show("Erreur lors du flip : " & ex.Message)
+        End Try
+    End Sub
+
+    Private Sub btflip_Click(sender As Object, e As EventArgs) Handles btnFlip.Click
+        Try
+            ' 1. Récupérer tous les fichiers .dat du dossier (sauf ceux déjà flippés)
+            Dim files As String() = Directory.GetFiles(m_DossierCible, "*.dat")
+            Dim count As Integer = 0
+
+            For Each filePath As String In files
+                ' On évite de flipper un fichier qui contient déjà "_flip" dans son nom
+                If Not Path.GetFileName(filePath).ToLower().Contains("_flip") Then
+                    MirrorDat(filePath)
+                    count += 1
+                End If
+            Next
+
+            ' 2. Rafraîchir la liste visuelle (lstLog)
+            lstLog.Items.Clear()
+            Dim allFiles = Directory.GetFiles(m_DossierCible)
+            For Each f In allFiles
+                lstLog.Items.Add(Path.GetFileName(f))
+            Next
+            lstLog.Refresh()
+            picPreview.Refresh()
+            'MessageBox.Show(count & " fichiers ont été flippés avec succès !", "Terminé")
+
+        Catch ex As Exception
+            MessageBox.Show("Erreur lors du flip groupé : " & ex.Message)
+        End Try
+    End Sub
 End Class

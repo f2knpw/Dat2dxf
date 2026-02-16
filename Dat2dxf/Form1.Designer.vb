@@ -31,16 +31,17 @@ Partial Class Form1
         btnConvert = New Button()
         lstLog = New ListBox()
         picPreview = New PictureBox()
+        btnFlip = New Button()
         CType(picPreview, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' btnConvert
         ' 
-        btnConvert.Location = New Point(657, 14)
+        btnConvert.Location = New Point(448, 14)
         btnConvert.Name = "btnConvert"
         btnConvert.Size = New Size(168, 63)
         btnConvert.TabIndex = 0
-        btnConvert.Text = "open .dat files directory"
+        btnConvert.Text = "open .dat files directory convert to dxf"
         btnConvert.UseVisualStyleBackColor = True
         ' 
         ' lstLog
@@ -60,11 +61,21 @@ Partial Class Form1
         picPreview.TabIndex = 2
         picPreview.TabStop = False
         ' 
+        ' btnFlip
+        ' 
+        btnFlip.Location = New Point(667, 14)
+        btnFlip.Name = "btnFlip"
+        btnFlip.Size = New Size(158, 63)
+        btnFlip.TabIndex = 3
+        btnFlip.Text = "flip .dat files"
+        btnFlip.UseVisualStyleBackColor = True
+        ' 
         ' Form1
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(1117, 450)
+        Controls.Add(btnFlip)
         Controls.Add(picPreview)
         Controls.Add(lstLog)
         Controls.Add(btnConvert)
@@ -79,5 +90,6 @@ Partial Class Form1
     Friend WithEvents btnConvert As Button
     Friend WithEvents lstLog As ListBox
     Friend WithEvents picPreview As PictureBox
+    Friend WithEvents btnFlip As Button
 
 End Class
