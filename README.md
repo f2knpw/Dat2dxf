@@ -3,7 +3,7 @@
 A lightweight, standalone Windows utility designed for aerodynamicists and RC modelers. This tool converts airfoil coordinate files (**Top-down .dat**) into CAD-ready **.dxf** files.
 
 ## Features
-* **Batch Conversion**: Convert an entire directory of `.dat` files to `.dxf` in one click.
+* **Batch Conversion**: Convert an entire directory of `.dat` files to `"spline".dxf` in one click.
 * **Airfoil Flipping**: Mirror your profiles horizontally ($1 - x$) to reverse leading/trailing edge positions while maintaining point order continuity.
 * **Standalone**: No installation required. Runs as a portable executable.
 * **Modern UI**: Clean interface with integrated log view and custom airfoil iconography.
