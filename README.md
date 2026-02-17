@@ -8,7 +8,7 @@ A lightweight, standalone Windows utility designed for aerodynamicists and RC mo
 * **Standalone**: No installation required. Runs as a portable executable.
 
 ## How to use
-1. **Place your .dat files** in the application folder and select this working directory.
+1. **Place your .dat files** in any folder and select this working directory.
 2. **Click "Convert"** to generate the `.dxf` files.
 3. **Click "Flip .dat"** if you need to mirror your profiles.
 4. **Select** any resulting file to see the profile (blue is .dat, red is .dxf).
