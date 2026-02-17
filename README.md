@@ -14,6 +14,9 @@ A lightweight, standalone Windows utility designed for aerodynamicists and RC mo
 4. **Select** any resulting file to see the profile (blue is .dat, red is .dxf).
 5. **Import** the resulting files directly into your favorite CAD software (AutoCAD, Rhino, SolidWorks, etc.).
 
+ <img width="1117" height="482" alt="image" src="https://github.com/user-attachments/assets/57d2b426-e160-4775-a146-e27ed4c47bf8" />
+
+
 ## Requirements
 * Windows 10/11
 * The `netDxf.dll` must be present in the same folder as the executable.
